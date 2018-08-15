@@ -1,0 +1,60 @@
+{% extends "admin.header.html" %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}" />
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="panel panel-default" >
+            <div class="panel-heading" id="head">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 alignVerticalCenter">
+                        <b><span class="pozdrav1">Urejanje uganke tedna</span></b>
+                    </div>
+                </div>
+            </div>
+            <section>
+                <div id="riddle">
+                    <img src="{{ url_for('static', filename='images/bell.png') }}">
+                    <button id="riddle-btn">Uganka tedna</button>
+                    <div id="riddle-txt">
+                        <div id="riddle-content">
+                            <p>
+                            Pajkova mreža povezuje štiri enako oddaljena vozlišča
+                            na vseh šest načinov
+                            (mimogrede: zato telesu,
+                            ki nastane kot konveksna ogrinjača,
+                            matematiki rečejo četverec).
+                            V različnih vozliščih se nahajata muha in slepi pajek.
+                            Muha se ne more premakniti,
+                            pajek pa se premika naključno iz enega vozlišča v drugega.
+                            </p>
+                            <p>
+                            <ol type="a">
+                            <li>
+                            Koliko je pričakovano število obratov,
+                            preden pajek doseže muho?
+                            <br /><br />
+                            Kaj pa, če četverec nadomestimo z
+                            </li>
+                            <li>kocko,</li>
+                            <li>oktaedrom,</li>
+                            <li>dodekaedrom, ali</li>
+                            <li>ikozaedrom?</li>
+                            </ol>
+                            </p>
+                            <p>
+                            Tedensko uganko najdete na
+                            <a href="https://ucilnica.fri.uni-lj.si/uganka">spletni učilnici FRI</a>.
+                            </p>
+                        </div>
+                        <a id="riddle-img" href="{{ url_for('static', filename='images/riddle/cetverec.png') }}">
+                            <img src="{{ url_for('static', filename='images/riddle/cetverec.png') }}">
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
