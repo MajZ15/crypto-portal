@@ -14,6 +14,10 @@
     margin-left: 25px;
 }
 #riddle button {
+    margin-top: 25px;
+    margin-right: 25px;
+}
+#dropdownButton1 {
     background-color: #2b6482;
     width: 200px;
     height: 38px;
@@ -21,28 +25,47 @@
     color: #fff;
     border-radius: 6px;
     font-weight: bold;
-    margin-top: 25px;
     margin-left: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 12.5px;
     float: left;
     font-size: 14px;
 }
-#riddle button:hover {
+#dropdownButton1:hover {
     background-color: #2b6482f3;
 }
+#dropdownMenu1 {
+    margin-top: 63px;
+    margin-left: 25px;
+    background-color: #2b6482;
+}
+#dropdownMenu1 li {
+    background-color: #2b6482;
+}
+#dropdownMenu1 li a {
+    color: #fff;
+    font-weight: bold;
+}
+
 #riddle-txt {
     clear: both;
-    margin-left: 127px;
+    margin-left: 30px;
     margin-right: 30px;
     border: 2px dotted #ccc;
-    padding: 20px;
-    font-size: 15px;
     overflow: auto;
 }
 
+#riddle-title {
+    padding: 15px;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
 #riddle-content {
-    width: 470px;
+    width: 600px;
     float: left;
+    padding: 20px;
+    font-size: 15px;
 }
 
 #riddle-txt a#riddle-img {
@@ -57,4 +80,20 @@
     margin: none;
 }
 
+#pop-up {
+    background-color: #26ae90;
+    border: 1px solid #26ae90;
+    color: #eee;
+    font-size: 16px;
+    height: 30px;
+    width: 150px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 2px 2px rgba(0,0,0,.2);
+    box-shadow: 0 2px 2px rgba(0,0,0,.2);
+}
+#pop-up:hover {
+    background-color: #3bb69b;
+    cursor: pointer;
+}
 /* Admin Substitution

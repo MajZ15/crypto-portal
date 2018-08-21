@@ -10,13 +10,39 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 alignVerticalCenter">
                         <b><span class="pozdrav1">Urejanje uganke tedna</span></b>
+                        <button class="pull-right" id="pop-up">
+                            Dodaj uganko
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
             <section>
                 <div id="riddle">
-                    <button>Trenutna uganka tedna</button>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Trenutna uganka tedna
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" id="dropdownMenu1" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">Ime uganke 1</a></li>
+                            <li><a href="#">Ime uganke 2</a></li>
+                            <li><a href="#">Ime uganke 3</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button class="btn btn-default">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </button>
+                        <button class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                    </div>
+                    <!-- Uganka -->
                     <div id="riddle-txt">
+                        <div id="riddle-title">
+                            Ime uganke
+                        </div>
                         <div id="riddle-content">
                             <p>
                             Pajkova mreža povezuje štiri enako oddaljena vozlišča
@@ -51,6 +77,7 @@
                             <img src="{{ url_for('static', filename='images/riddle/cetverec.png') }}">
                         </a>
                     </div>
+                    <!-- /Uganka -->
                 </div>
             </section>
         </div>
