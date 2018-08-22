@@ -1,5 +1,7 @@
 /* Admin Header */
-
+.btn-primary {
+    background-color: #2b6482
+}
 
 /* Admin Login */
 
@@ -8,15 +10,7 @@
     background-color: #fff;
     margin-bottom: 25px;
 }
-#riddle img {
-    float: left;
-    height: 80px;
-    margin-left: 25px;
-}
-#riddle button {
-    margin-top: 25px;
-    margin-right: 25px;
-}
+
 #dropdownButton1 {
     background-color: #2b6482;
     width: 200px;
@@ -27,6 +21,7 @@
     font-weight: bold;
     margin-left: 25px;
     margin-bottom: 12.5px;
+    margin-top: 12.5px;
     float: left;
     font-size: 14px;
 }
@@ -34,7 +29,7 @@
     background-color: #2b6482f3;
 }
 #dropdownMenu1 {
-    margin-top: 63px;
+    margin-top: 50px;
     margin-left: 25px;
     background-color: #2b6482;
 }
@@ -46,6 +41,10 @@
     font-weight: bold;
 }
 
+.btn-tools {
+    margin-right: 5px;
+}
+
 #riddle-txt {
     clear: both;
     margin-left: 30px;
@@ -55,7 +54,7 @@
 }
 
 #riddle-title {
-    padding: 15px;
+    padding: 25px;
     padding-top: 10px;
     font-weight: bold;
     font-size: 20px;
@@ -75,25 +74,12 @@
 }
 
 #riddle-txt a#riddle-img img {
-    width: 130px;
+    width: 150px;
     height: auto;
     margin: none;
 }
 
-#pop-up {
-    background-color: #26ae90;
-    border: 1px solid #26ae90;
-    color: #eee;
-    font-size: 16px;
-    height: 30px;
-    width: 150px;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 2px 2px rgba(0,0,0,.2);
-    box-shadow: 0 2px 2px rgba(0,0,0,.2);
-}
-#pop-up:hover {
-    background-color: #3bb69b;
-    cursor: pointer;
+textarea {
+    width: 100%;
 }
 /* Admin Substitution
