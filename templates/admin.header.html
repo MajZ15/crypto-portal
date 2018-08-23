@@ -40,6 +40,12 @@
         <li>
             <a class="btn btn-secondary" role="button" href="{{url_for('admin.substitution')}}">Zamenjalke</a>
         </li>
+        {% if g.user %}
+            <li class="pull-right"><span style="color: white">{{ g.user[1] }}</span></li>
+            <li class="pull-right"><a class="btn btn-secondary" role="button">Log out</a></li>
+        {% else %}
+            <li class="pull-right"><a class="btn btn-secondary" role="button" href="{{url_for('admin.login')}}">Login</a></li>
+        {% endif %}
     </ul>
 </nav>
 
