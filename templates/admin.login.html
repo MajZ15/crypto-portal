@@ -1,5 +1,7 @@
 {% extends "admin.header.html" %}
-
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/admin.css')}}" />
+{% endblock %}
 {% block body %}
 <!--Urejanje uganke-->
 <div class="row">
