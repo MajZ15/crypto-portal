@@ -10,7 +10,6 @@ from visual import app as visual_app
 from alphabet import app as alphabet_app
 from timestamp import app as timestamp_app
 from password import app as password_app
-from admin import app as admin_app
 import os # DODANO ZA POTREBE CLOUD9
 
 app = Flask(__name__)
@@ -22,7 +21,6 @@ app.register_blueprint(visual_app, url_prefix = '/visual')
 app.register_blueprint(alphabet_app, url_prefix = '/alphabet')
 app.register_blueprint(timestamp_app, url_prefix = '/timestamp')
 app.register_blueprint(password_app, url_prefix='/password')
-app.register_blueprint(admin_app, url_prefix = '/admin')
 app.secret_key = sesskey
 
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024   # limit 1 MB
