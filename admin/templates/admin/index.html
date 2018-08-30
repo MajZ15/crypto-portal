@@ -1,5 +1,17 @@
 {% extends 'admin/master.html' %}
-
 {% block body %}
-  <p>Hello world</p>
-{% endblock %}
+{{ super() }}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <h1>KriptoAdmin</h1>
+            {% if not current_user.is_authenticated %}
+            <p>Please login with admin credentials</p>
+            <p>
+                <a class="btn btn-primary" href="{{ url_for('security.login') }}">login</a>
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

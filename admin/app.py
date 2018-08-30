@@ -79,7 +79,7 @@ def index():
 ### Setup flask-admin interface ###
 
 # create admin
-admin = Admin(app, name='KriptoAdmin', template_mode='bootstrap3')
+admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3')
 
 # CRUD views
 admin.add_view(MyModelView(Substitution, db.session))
