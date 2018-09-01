@@ -37,7 +37,8 @@ class User(db.Model, UserMixin):
 
 class Substitution(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(2048))
+    title = db.Column(db.String(100))
+    text = db.Column(db.Text())
     level = db.Column(db.String(100))
     language = db.Column(db.String(100))
 
@@ -46,9 +47,14 @@ class Substitution(db.Model):
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
-# Create customized model view class
-class MyModelView(sqla.ModelView):
-
+# Create customized model view classes
+class SubstitutionView(sqla.ModelView):
+    column_exclude_list = ('text')
+    form_widget_args = {
+        'text': {
+            'rows': 15,
+        }
+    }
     def is_accessible(self):
         if not current_user.is_active or not current_user.is_authenticated:
             return False
@@ -70,6 +76,8 @@ class MyModelView(sqla.ModelView):
                 # login
                 return redirect(url_for('security.login', next=request.url))
 
+    
+
 # Flask views
 @app.route('/')
 def index():
@@ -82,7 +90,7 @@ def index():
 admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3')
 
 # CRUD views
-admin.add_view(MyModelView(Substitution, db.session))
+admin.add_view(SubstitutionView(Substitution, db.session))
 
 # define a context processor for merging flask-admin's template context into the
 # flask-security views.
@@ -95,7 +103,7 @@ def security_context_processor():
         get_url=url_for
     )
 
-# creates a test admin user for login        
+# creates a test db with an admin user for login        
 def test_db():
     db.drop_all()
     db.create_all()
@@ -117,8 +125,10 @@ def test_db():
 if __name__ == '__main__':
 
 
-    # Uncomment this call to create a test admin user
+    # Uncomment this call to create a test db with a test db user
+    # email: Admin
+    # password: admin
     # test_db()
 
-    app.run(debug=True)
+    app.run(debug=True, port=3001)
 
