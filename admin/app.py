@@ -7,6 +7,8 @@ from flask_security.utils import encrypt_password
 from flask_admin import Admin
 from flask_admin.contrib import sqla
 from flask_admin import helpers as admin_helpers
+from wtforms import TextAreaField
+from wtforms.widgets import TextArea
 
 app = Flask(__name__)
 
@@ -38,7 +40,14 @@ class User(db.Model, UserMixin):
 class Substitution(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
-    text = db.Column(db.Text())
+    text = db.Column(db.Text)
+    level = db.Column(db.String(100))
+    language = db.Column(db.String(100))
+
+class Riddle(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    text = db.Column(db.UnicodeText())
     level = db.Column(db.String(100))
     language = db.Column(db.String(100))
 
@@ -47,14 +56,10 @@ class Substitution(db.Model):
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
-# Create customized model view classes
-class SubstitutionView(sqla.ModelView):
-    column_exclude_list = ('text')
-    form_widget_args = {
-        'text': {
-            'rows': 15,
-        }
-    }
+# Customized model view classes
+
+# Basic Flask-Security customized model view class
+class MyView(sqla.ModelView):
     def is_accessible(self):
         if not current_user.is_active or not current_user.is_authenticated:
             return False
@@ -76,6 +81,32 @@ class SubstitutionView(sqla.ModelView):
                 # login
                 return redirect(url_for('security.login', next=request.url))
 
+# Customized view class for Substitution
+class SubstitutionView(MyView):
+    column_exclude_list = ('text')
+    form_widget_args = {
+        'text': {
+            'rows': 15,
+        }
+    }
+# Customized view class for Riddles
+class CKTextAreaWidget(TextArea):
+    def __call__(self, field, **kwargs):
+        if kwargs.get('class'):
+            kwargs['class'] += ' ckeditor'
+        else:
+            kwargs.setdefault('class', 'ckeditor')
+        return super(CKTextAreaWidget, self).__call__(field, **kwargs)
+
+class CKTextAreaField(TextAreaField):
+    widget = CKTextAreaWidget()
+
+class RiddleView(MyView):
+    extra_js = ['//cdn.ckeditor.com/4.6.0/standard/ckeditor.js']
+    column_exclude_list = ('text')
+    form_overrides = {
+        'text': CKTextAreaField
+    }
     
 
 # Flask views
@@ -90,6 +121,7 @@ def index():
 admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3')
 
 # CRUD views
+admin.add_view(RiddleView(Riddle, db.session))
 admin.add_view(SubstitutionView(Substitution, db.session))
 
 # define a context processor for merging flask-admin's template context into the

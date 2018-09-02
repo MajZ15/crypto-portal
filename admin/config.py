@@ -4,7 +4,7 @@ import auth
 SECRET_KEY = '123456790'
 
 # Create in-memory database
-SQLALCHEMY_DATABASE_URI = "mysql://{}@{}/{}".format(auth.dbuser, auth.dbhost, auth.dbase)
+SQLALCHEMY_DATABASE_URI = "mysql://{}@{}/{}?charset=utf8mb4".format(auth.dbuser, auth.dbhost, auth.dbase)
 SQLALCHEMY_ECHO = True
 
 # Flask-Security config
