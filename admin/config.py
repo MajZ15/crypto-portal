@@ -2,6 +2,8 @@ import auth
 
 # Create dummy secrey key so we can use sessions
 SECRET_KEY = '123456790'
+DEBUG = True
+ENV = 'Development'
 
 # Create in-memory database
 SQLALCHEMY_DATABASE_URI = "mysql://{}@{}/{}?charset=utf8mb4".format(auth.dbuser, auth.dbhost, auth.dbase)

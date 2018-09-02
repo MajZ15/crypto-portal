@@ -34,8 +34,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
-    roles = db.relationship('Role', secondary=roles_users,
-                            backref=db.backref('users', lazy='dynamic'))
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
 class Substitution(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +49,13 @@ class Riddle(db.Model):
     text = db.Column(db.UnicodeText())
     level = db.Column(db.String(100))
     language = db.Column(db.String(100))
+
+class Daily(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    riddleId = db.Column(db.Integer)
+    substitutionId = db.Column(db.Integer)
+
 
 ### Setup Flask-Security ###
 
@@ -107,22 +113,6 @@ class RiddleView(MyView):
     form_overrides = {
         'text': CKTextAreaField
     }
-    
-
-# Flask views
-@app.route('/')
-def index():
-    print(current_user)
-    return redirect(url_for('security.login'))
-
-### Setup flask-admin interface ###
-
-# create admin
-admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3')
-
-# CRUD views
-admin.add_view(RiddleView(Riddle, db.session))
-admin.add_view(SubstitutionView(Substitution, db.session))
 
 # define a context processor for merging flask-admin's template context into the
 # flask-security views.
@@ -133,7 +123,28 @@ def security_context_processor():
         admin_view=admin.index_view,
         h=admin_helpers,
         get_url=url_for
-    )
+    )    
+
+# TO-DO just an example how to pass query in a view, change it so it is not global
+@app.context_processor
+def inject_paths():
+    # you will be able to access dict in all views
+    daily = Daily.query.get(1)
+    return dict(daily=daily)
+
+# Flask views
+@app.route('/')
+def index():
+    return redirect(url_for('security.login'))
+
+### Setup flask-admin interface ###
+
+# create admin
+admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3')
+
+# CRUD views
+admin.add_view(RiddleView(Riddle, db.session))
+admin.add_view(SubstitutionView(Substitution, db.session))
 
 # creates a test db with an admin user for login        
 def test_db():
@@ -160,7 +171,7 @@ if __name__ == '__main__':
     # Uncomment this call to create a test db with a test db user
     # email: Admin
     # password: admin
-    # test_db()
+    #test_db()
 
-    app.run(debug=True, port=3001)
+    app.run(port=3001)
 

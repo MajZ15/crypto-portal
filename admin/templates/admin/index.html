@@ -1,18 +1,28 @@
 {% extends 'admin/master.html' %}
 {% block body %}
 {{ super() }}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h1>KriptoAdmin</h1>
-            {% if not current_user.is_authenticated %}
-            <p>To use the site please login with admin credentials</p>
-            <p>
-                <a class="btn btn-primary" href="{{ url_for('security.login') }}">login</a>
-            </p>
-            {% else %}
+<div class="jumbotron">
+    <h1>Welcome to admin interface for Crypto Portal.</h1>
+    {% if not current_user.is_authenticated %}
+    <p>To edit or configure Crypto Portal, please Login</p>
+    <p>
+        <a class="btn btn-primary" href="{{ url_for('security.login') }}">Login</a>
+    </p>
+    {% else %}
+    <p>To edit or configure daily riddle or daily substitution please navigate accordingly with the bar above</p>
+    {% endif %}
+</div>
+<div class="col-sm-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">Substitution Riddle of the Day</div>
+        <div class="panel-body">
             
-            {% endif %}
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Riddle of the Day</div>
+        <div class="panel-body">
+            {{ daily.name }}
         </div>
     </div>
 </div>
