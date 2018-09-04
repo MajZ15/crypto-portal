@@ -42,6 +42,7 @@ class Substitution(db.Model):
     text = db.Column(db.Text)
     level = db.Column(db.String(100))
     language = db.Column(db.String(100))
+    dailies = db.relationship('Daily', backref='substitution', lazy=True)
 
 class Riddle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,12 +50,13 @@ class Riddle(db.Model):
     text = db.Column(db.UnicodeText())
     level = db.Column(db.String(100))
     language = db.Column(db.String(100))
+    dailies = db.relationship('Daily', backref='riddle', lazy=True)
 
 class Daily(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    riddleId = db.Column(db.Integer)
-    substitutionId = db.Column(db.Integer)
+    riddle_id = db.Column(db.Integer, db.ForeignKey('riddle.id'))
+    substitution_id = db.Column(db.Integer, db.ForeignKey('substitution.id'))
 
 
 ### Setup Flask-Security ###
@@ -95,7 +97,9 @@ class SubstitutionView(MyView):
             'rows': 15,
         }
     }
-# Customized view class for Riddles
+    form_excluded_columns = ('dailies')
+
+# Customized view class for Riddles with CKeditor
 class CKTextAreaWidget(TextArea):
     def __call__(self, field, **kwargs):
         if kwargs.get('class'):
@@ -113,6 +117,11 @@ class RiddleView(MyView):
     form_overrides = {
         'text': CKTextAreaField
     }
+    form_excluded_columns = ('dailies')
+
+# Customized view class for Dailies
+class DailyView(MyView):
+    column_list = ('name', 'substitution.title', 'riddle.title')
 
 # define a context processor for merging flask-admin's template context into the
 # flask-security views.
@@ -145,6 +154,7 @@ admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_
 # CRUD views
 admin.add_view(RiddleView(Riddle, db.session))
 admin.add_view(SubstitutionView(Substitution, db.session))
+admin.add_view(DailyView(Daily, db.session))
 
 # creates a test db with an admin user for login        
 def test_db():
@@ -171,7 +181,7 @@ if __name__ == '__main__':
     # Uncomment this call to create a test db with a test db user
     # email: Admin
     # password: admin
-    #test_db()
+    # test_db()
 
     app.run(port=3001)
 
