@@ -13,17 +13,22 @@
     {% endif %}
 </div>
 <div class="col-sm-12">
-    <div class="panel panel-info">
-        <div class="panel-heading">Substitution Riddle of the Day</div>
-        <div class="panel-body">
-            
-        </div>
+    <div class="page-header">
+        <h1>Active dailies</h1>
     </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">Riddle of the Day</div>
-        <div class="panel-body">
-            {{ daily.name }}
+    {% for daily in dailies %}
+        <div class="panel panel-info">
+            <div class="panel-heading">{{ daily.name }}</div>
+            <div class="panel-body">
+                {% if daily.substitution.id %}
+                    <h3>{{ daily.substitution.title }}</h3>
+                    <p>{{ daily.substitution.text }}</p>
+                {% elif daily.riddle.id %}
+                    <h3>{{ daily.riddle.title }}</h3>
+                    <p>{{ daily.riddle.text }}</p>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endfor %}
 </div>
 {% endblock body %}

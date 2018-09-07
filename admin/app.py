@@ -138,8 +138,8 @@ def security_context_processor():
 @app.context_processor
 def inject_paths():
     # you will be able to access dict in all views
-    daily = Daily.query.get(1)
-    return dict(daily=daily)
+    dailies = Daily.query.all()
+    return dict(dailies=dailies)
 
 # Flask views
 @app.route('/')
@@ -152,9 +152,9 @@ def index():
 admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3')
 
 # CRUD views
+admin.add_view(DailyView(Daily, db.session))
 admin.add_view(RiddleView(Riddle, db.session))
 admin.add_view(SubstitutionView(Substitution, db.session))
-admin.add_view(DailyView(Daily, db.session))
 
 # creates a test db with an admin user for login        
 def test_db():
