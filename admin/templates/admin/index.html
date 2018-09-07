@@ -16,19 +16,23 @@
     <div class="page-header">
         <h1>Active dailies</h1>
     </div>
-    {% for daily in dailies %}
-        <div class="panel panel-info">
-            <div class="panel-heading">{{ daily.name }}</div>
-            <div class="panel-body">
-                {% if daily.substitution.id %}
-                    <h3>{{ daily.substitution.title }}</h3>
-                    <p>{{ daily.substitution.text }}</p>
-                {% elif daily.riddle.id %}
-                    <h3>{{ daily.riddle.title }}</h3>
-                    <p>{{ daily.riddle.text }}</p>
-                {% endif %}
+    {% if dailies|length == 0 %}
+        <p>There are currently no active dailies</p>
+    {% else %}
+        {% for daily in dailies %}
+            <div class="panel panel-info">
+                <div class="panel-heading">{{ daily.name }}</div>
+                <div class="panel-body">
+                    {% if daily.substitution.id %}
+                        <h3>{{ daily.substitution.title }}</h3>
+                        <p>{{ daily.substitution.text }}</p>
+                    {% elif daily.riddle.id %}
+                        <h3>{{ daily.riddle.title }}</h3>
+                        <p>{{ daily.riddle.text }}</p>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 </div>
 {% endblock body %}

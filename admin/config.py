@@ -6,7 +6,8 @@ DEBUG = True
 ENV = 'Development'
 
 # Create in-memory database
-SQLALCHEMY_DATABASE_URI = "mysql://{}@{}/{}?charset=utf8mb4".format(auth.dbuser, auth.dbhost, auth.dbase)
+SQLALCHEMY_DATABASE_URI = "mysql://{}@{}/{}".format(auth.dbuser, auth.dbhost, auth.dbase)
+MYSQL_DATABASE_CHARSET = 'utf8mb4'
 SQLALCHEMY_ECHO = True
 
 # Flask-Security config

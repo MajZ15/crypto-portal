@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore, \
     UserMixin, RoleMixin, login_required, current_user
 from flask_security.utils import encrypt_password
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib import sqla
 from flask_admin import helpers as admin_helpers
 from wtforms import TextAreaField
@@ -63,6 +63,14 @@ class Daily(db.Model):
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+
+# Customized view classes
+
+class MyHomeView(AdminIndexView):
+    @expose('/')
+    def index(self):
+        dailies = Daily.query.all()
+        return self.render('admin/index.html', dailies=dailies)
 
 # Customized model view classes
 
@@ -135,11 +143,11 @@ def security_context_processor():
     )    
 
 # TO-DO just an example how to pass query in a view, change it so it is not global
-@app.context_processor
-def inject_paths():
-    # you will be able to access dict in all views
-    dailies = Daily.query.all()
-    return dict(dailies=dailies)
+# @app.context_processor
+# def inject_paths():
+#     # you will be able to access dict in all views
+#     dailies = Daily.query.all()
+#     return dict(dailies=dailies)
 
 # Flask views
 @app.route('/')
@@ -149,30 +157,40 @@ def index():
 ### Setup flask-admin interface ###
 
 # create admin
-admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3')
+admin = Admin(app, name='KriptoAdmin', base_template='my_master.html', template_mode='bootstrap3', index_view=MyHomeView())
 
 # CRUD views
 admin.add_view(DailyView(Daily, db.session))
 admin.add_view(RiddleView(Riddle, db.session))
 admin.add_view(SubstitutionView(Substitution, db.session))
 
+import sample_db
 # creates a test db with an admin user for login        
 def test_db():
     db.drop_all()
     db.create_all()
 
     with app.app_context():
-        user_role = Role(name='user')
-        super_user_role = Role(name='superuser')
-        db.session.add(user_role)
-        db.session.add(super_user_role)
+        # create roles
+        role1 = Role(name = sample_db.role1['name'])
+        role2 = Role(name = sample_db.role2['name'])
+        db.session.add(role1)
+        db.session.add(role2)
         db.session.commit()
 
+        # create an admin user
         test_user = user_datastore.create_user(
-            email='admin',
-            password=encrypt_password('admin'),
-            roles=[user_role, super_user_role]
+            email = sample_db.user1['email'],
+            password = encrypt_password(sample_db.user1['password']),
+            roles=[role1 , role2]
         )
+        db.session.commit()
+        
+        # create test exercises
+        db.session.add(Riddle(title= sample_db.riddle1['title'], text= sample_db.riddle1['text'], level= sample_db.riddle1['level'], language= sample_db.riddle1['language']))
+        db.session.add(Riddle(title= sample_db.riddle2['title'], text= sample_db.riddle2['text'], level= sample_db.riddle2['level'], language= sample_db.riddle2['language']))
+        db.session.add(Substitution(title= sample_db.substitution1['title'], text= sample_db.substitution1['text'], level= sample_db.substitution1['level'], language= sample_db.substitution1['language']))
+        db.session.add(Substitution(title= sample_db.substitution2['title'], text= sample_db.substitution2['text'], level= sample_db.substitution2['level'], language= sample_db.substitution2['language']))
         db.session.commit()
 
 if __name__ == '__main__':
