@@ -1,0 +1,136 @@
+{% extends "header.html" %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}" />
+{% endblock %}
+{% block body %}
+<script>
+    // TO DO spremeni
+    // let link = "http://lkrv.fri.uni-lj.si/crypto-portal/substitution/ready/"
+    let link = "http://127.0.0.1:5000/substitution/ready/"
+    open_page = function(id) {
+        location.href = link + id;
+    }
+</script>
+<div class="row">
+   <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="panel panel-default level-{{mode}}-{{level}}" >
+            <div class="panel-heading" id="head">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 alignVerticalCenter">
+                        <b><span class="pozdrav1">Dobrodošli na portalu Kriptogram!</span></b>
+                    </div>
+                </div>
+            </div>
+    <section id="left">
+        <div id="text">
+            <p id="first-p">
+                Dobrodošli na spletnem portalu <strong>Kriptogram</strong>,
+                ki je namenjen vsem vedoželjnim,
+                še posebej tistim, ki radi rešujete kriptografske uganke.
+                <br><br>
+                Sprehodite se v svet <a href="{{ url_for('substitution.index') }}">zamenjalk</a>
+                in z reševanjem odkrivajte lepe pregovore in besedila.
+                Poglejte si, kako lahko <a href="{{ url_for('steganography.images') }}">skrivate</a>
+                sporočila v slike in jih nato spet razberete.
+                Naučite se novih <a href="{{ url_for('alphabet.index') }}">abeced</a>,
+                s katerimi se lahko sporazumevate tudi, kadar ne morete govoriti.
+            </p>
+            <h3>Kaj je kriptogram?</h3>
+            <p id="second-p">
+                Kriptogram je načeloma vsako zašifrirano sporočilo.
+                Če je šifra, ki je uporabljena v takem besedilu,
+                dovolj enostavna, lahko besedilo razkrijemo sami.
+                Pogosto se uporabljajo zamenjalne šifre,
+                pri kateri se vsaka črka zamenja z drugo črko ali številko.
+                <br>
+                Za rešitev uganke je potrebno tako poiskati prvotno sporočilo.
+                Čeprav so včasih zamenjalne šifre uporabljali v resne namene,
+                jih danes večinoma najdemo v zabavnem tisku,
+                v časopisih ali revijah.
+            </p>
+
+            <h3>O projektu</h3>
+            <p>
+                Spletni portal Kriptogram so študenti FRI skupaj s člani
+                Društva kriptologov Slovenije (DKS) razvili v sklopu
+                Študentskih inovativnih projektov za družbeno korist (2017).
+            </p>
+        </div>
+        <div id="riddle">
+            <img src="{{ url_for('static', filename='images/bell.png') }}">
+            <div class="col-sm-12">
+                    <div class="page-header">
+                        <h1>Active dailies</h1>
+                    </div>
+                    {% if dailies|length == 0 %}
+                        <p>There are currently no active dailies</p>
+                    {% else %}
+                        {% for daily in dailies %}
+                            <div class="panel panel-info">
+                                <div class="panel-heading clearfix">
+                                    <h4 style="display: inline;">{{ daily[0] }}</h4>
+                                    {% if daily[6] == "substitution" %}
+                                        <p>Level: <strong>{{ daily[4] }}</strong>, Language: <strong>{{ daily[5] }}</strong></p>
+                                        <div class="btn-group pull-right" style="display: inline;">
+                                            <a href ="javascript:open_page({{daily[1]}})" class="btn btn-primary">Go to exercise</a>
+                                        </div>
+                                    {% elif daily[6] == "riddle" %}
+                                        <p>Level: <strong>{{ daily[4] }}</strong>, Language: <strong>{{ daily[5] }}</strong></p>
+                                    {% endif %}
+                                </div>
+                                <div class="panel-body">
+                                    {% if daily[6] == "substitution" %}
+   
+                                    {% elif daily[6] == "riddle" %}
+                                        <h3>{{ daily[2] }}</h3>
+                                        <p>{{ daily[3]|safe }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+        </div>
+    </section>
+    <section id="right">
+        <div id="kvizko">
+            <img src={{ url_for('static', filename='images/e-kvizko.png') }}>
+            <button onclick="document.getElementById('kvizkolink').click()">
+                <a href="https://equiz.fri.uni-lj.si/welcome"
+                   id="kvizkolink" target="_blank">Aplikacija Kvizko</a>
+            </button>
+            <p>Aplikacija je namenjena prenosu naravoslovnih ved izza pisalne
+                mize, preobremenjene s kupi knjig in zvezkov v vsakdanje
+                življenje. Omogočimo miselno zabavo kjerkoli in kadarkoli. <br><br>40
+                let skrbno izbranih problemov (z izpeljanimi rešitvami)
+                približa široki množici mladih in starejših. Vsebuje odprti
+                skupini Bober in Presek, preko katerih lahko vsakdo rešuje
+                naloge za tekmovanja ali za krajšanje prostega časa. </p>
+        </div>
+    </section>
+{#
+    <div id="newsletter">
+        <h3>Kriptografske novice</h3>
+        <p>Naročite se na kriptografske novice</p>
+        <input type="email" placeholder="E-mail">
+        <button>Potrdi</button>
+    </div>
+#}
+    <div id="logos">
+        <img src={{ url_for('static', filename='images/image002.png') }}>
+        <img src={{ url_for('static', filename='images/image004.jpg') }}>
+        <img src={{ url_for('static', filename='images/image006.jpg') }}>
+        <img src={{ url_for('static', filename='images/image008.jpg') }}>
+    </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            $("#riddle-btn").click(function () {
+                $("#riddle-txt").toggle();
+            });
+        });
+    </script>
+{% endblock %}

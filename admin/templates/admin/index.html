@@ -1,5 +1,13 @@
 {% extends 'admin/master.html' %}
 {% block body %}
+<script>
+    // TO DO spremeni
+    // let link = "http://lkrv.fri.uni-lj.si/crypto-portal/substitution/ready/"
+    let link = "http://127.0.0.1:5000/substitution/ready/"
+    open_page = function(id) {
+        location.href = link + id;
+    }
+</script>
 {{ super() }}
 <div class="jumbotron">
     <h1>Welcome to admin interface for Crypto Portal.</h1>
@@ -21,14 +29,27 @@
     {% else %}
         {% for daily in dailies %}
             <div class="panel panel-info">
-                <div class="panel-heading">{{ daily.name }}</div>
+                <div class="panel-heading clearfix">
+                    <h4 style="display: inline;">{{ daily.name }}</h4>
+                    {% if daily.substitution.id %}
+                        <p>Level: <strong>{{ daily.substitution.level }}</strong>, Language: <strong>{{ daily.substitution.language }}</strong></p>
+                        <div class="btn-group pull-right" style="display: inline;">
+                            <a href ="javascript:open_page({{daily.substitution.id}})" class="btn btn-primary">Go to exercise</a>
+                        </div>
+                    {% elif daily.riddle.id %}
+                        <p>Level: <strong>{{ daily.riddle.level }}</strong>, Language: <strong>{{ daily.riddle.language }}</strong></p>
+                        <div class="btn-group pull-right" style="display: inline;">
+                            <a href="http://lkrv.fri.uni-lj.si/crypto-portal" class="btn btn-primary">Go to Exercise</a>
+                        </div>
+                    {% endif %}
+                </div>
                 <div class="panel-body">
                     {% if daily.substitution.id %}
                         <h3>{{ daily.substitution.title }}</h3>
                         <p>{{ daily.substitution.text }}</p>
                     {% elif daily.riddle.id %}
                         <h3>{{ daily.riddle.title }}</h3>
-                        <p>{{ daily.riddle.text }}</p>
+                        <p>{{ daily.riddle.text|safe }}</p>
                     {% endif %}
                 </div>
             </div>
