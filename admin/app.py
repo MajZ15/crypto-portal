@@ -9,6 +9,7 @@ from flask_admin.contrib import sqla
 from flask_admin import helpers as admin_helpers
 from wtforms import TextAreaField
 from wtforms.widgets import TextArea
+from wtforms.validators import ValidationError
 
 app = Flask(__name__)
 
@@ -44,6 +45,9 @@ class Substitution(db.Model):
     language = db.Column(db.String(100))
     dailies = db.relationship('Daily', backref='substitution', lazy=True)
 
+    def __repr__(self):
+        return self.title
+
 class Riddle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
@@ -51,6 +55,9 @@ class Riddle(db.Model):
     level = db.Column(db.String(100))
     language = db.Column(db.String(100))
     dailies = db.relationship('Daily', backref='riddle', lazy=True)
+
+    def __repr__(self):
+        return self.title
 
 class Daily(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -129,7 +136,18 @@ class RiddleView(MyView):
 
 # Customized view class for Dailies
 class DailyView(MyView):
-    column_list = ('name', 'substitution.title', 'riddle.title')
+    # column_list = ('name', 'substitution.title', 'riddle.title')
+
+    def on_model_change(self, form, model, is_created):
+        dailies = Daily.query.all()
+        for daily in dailies:
+            if (daily.riddle_id and not daily.substitution_id) or (daily.substitution_id and not daily.riddle_id):
+                return model
+            elif daily.riddle_id and daily.substitution_id: 
+                raise ValidationError('Daily can have only one active exercise (riddle or substitution)')
+            else:
+                raise ValidationError('Please select exercise (riddle or substitution) for this daily')
+    
 
 # define a context processor for merging flask-admin's template context into the
 # flask-security views.
