@@ -35,35 +35,16 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024   # limit 1 MB
 def index():
     db = database.dbcon()
     cur = db.cursor()
-    cur.execute("SELECT * FROM daily")
-    dailies_format = [x for x in cur.fetchall()]
-    dailies = []
-    for daily in dailies_format:
-        tmp = []
-        tmp.append(daily[1])
-        if daily[2]:
-            cur.execute("SELECT * FROM riddle WHERE id = %s", [daily[2]])
-            add = cur.fetchone()
-            tmp.append(add[0])
-            tmp.append(add[1])
-            tmp.append(add[2])
-            tmp.append(add[3])
-            tmp.append(add[4])
-            tmp.append('riddle')
-        elif daily[3]:
-            cur.execute("SELECT * FROM substitution WHERE id = %s", [daily[3]])
-            add = cur.fetchone()
-            tmp.append(add[0])
-            tmp.append(add[1])
-            tmp.append(add[2])
-            tmp.append(add[3])
-            tmp.append(add[4])
-            tmp.append('substitution')
-        dailies.append(tmp)
-    # daily format
-    # daily[0] = daily.name, daily[1] = daily.id, daily[2] = daily.title, daily[3] = daily.text, daily[4] = daily.level, daily[5] = daily.language, daily[6] = daily.type 
+    cur.execute("SELECT d.name, r.id, r.title, r.text, r.level, r.language " + 
+                "FROM daily d, riddle r " +
+                "WHERE d.riddle_id = r.id;")
+    riddles = [x for x in cur.fetchall()]
+    cur.execute("SELECT d.name, s.id, s.title, s.text, s.level, s.language " + 
+                "FROM daily d, substitution s " +
+                "WHERE d.substitution_id = s.id;")
+    substitutions = [x for x in cur.fetchall()]
     cur.close()
-    return render_template("index2.html", nav = "start", dailies = dailies)
+    return render_template("index2.html", nav = "start", substitutions = substitutions, riddles = riddles)
 
 @app.route("/favicon.ico")
 def favicon():

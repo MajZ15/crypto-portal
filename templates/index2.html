@@ -62,29 +62,29 @@
                     <div class="page-header">
                         <h1>Active dailies</h1>
                     </div>
-                    {% if dailies|length == 0 %}
+                    {% if riddles|length == 0 and substitutions|length == 0 %}
                         <p>There are currently no active dailies</p>
                     {% else %}
-                        {% for daily in dailies %}
+                        {% for daily in riddles %}
                             <div class="panel panel-info">
                                 <div class="panel-heading clearfix">
                                     <h4 style="display: inline;">{{ daily[0] }}</h4>
-                                    {% if daily[6] == "substitution" %}
-                                        <p>Level: <strong>{{ daily[4] }}</strong>, Language: <strong>{{ daily[5] }}</strong></p>
-                                        <div class="btn-group pull-right" style="display: inline;">
-                                            <a href ="javascript:open_page({{daily[1]}})" class="btn btn-primary">Go to exercise</a>
-                                        </div>
-                                    {% elif daily[6] == "riddle" %}
-                                        <p>Level: <strong>{{ daily[4] }}</strong>, Language: <strong>{{ daily[5] }}</strong></p>
-                                    {% endif %}
+                                    <p>Level: <strong>{{ daily[4] }}</strong>, Language: <strong>{{ daily[5] }}</strong></p>
                                 </div>
                                 <div class="panel-body">
-                                    {% if daily[6] == "substitution" %}
-   
-                                    {% elif daily[6] == "riddle" %}
-                                        <h3>{{ daily[2] }}</h3>
-                                        <p>{{ daily[3]|safe }}</p>
-                                    {% endif %}
+                                    <h3>{{ daily[2] }}</h3>
+                                    <p>{{ daily[3]|safe }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% for daily in substitutions %}
+                            <div class="panel panel-info">
+                                <div class="panel-heading clearfix">
+                                    <h4 style="display: inline;">{{ daily[0] }}</h4>
+                                    <p>Level: <strong>{{ daily[4] }}</strong>, Language: <strong>{{ daily[5] }}</strong></p>
+                                    <div class="btn-group pull-right" style="display: inline;">
+                                        <a href ="javascript:open_page({{daily[1]}})" class="btn btn-primary">Go to exercise</a>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}
