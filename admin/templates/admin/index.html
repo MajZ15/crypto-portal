@@ -1,7 +1,7 @@
 {% extends 'admin/master.html' %}
 {% block body %}
 <script>
-    // TO DO spremeni
+    // TODO spremeni
     // let link = "http://lkrv.fri.uni-lj.si/crypto-portal/substitution/ready/"
     let link = "http://127.0.0.1:5000/substitution/ready/"
     open_page = function(id) {
@@ -17,7 +17,7 @@
         <a class="btn btn-primary" href="{{ url_for('security.login') }}">Login</a>
     </p>
     {% else %}
-    <p>To edit or configure daily riddle or daily substitution please navigate accordingly with the bar above</p>
+    <p>To configure dailies, riddles or substitutions please navigate accordingly with the bar above</p>
     {% endif %}
 </div>
 <div class="col-sm-12">
