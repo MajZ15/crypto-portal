@@ -34,24 +34,21 @@
                     {% if daily.substitution.id %}
                         <p>Level: <strong>{{ daily.substitution.level }}</strong>, Language: <strong>{{ daily.substitution.language }}</strong></p>
                         <div class="btn-group pull-right" style="display: inline;">
-                            <a href ="javascript:open_page({{daily.substitution.id}})" class="btn btn-primary">Go to exercise</a>
+                            <a href ="javascript:open_page({{daily.substitution.id}})" class="btn btn-primary">Start Solving</a>
                         </div>
                     {% elif daily.riddle.id %}
                         <p>Level: <strong>{{ daily.riddle.level }}</strong>, Language: <strong>{{ daily.riddle.language }}</strong></p>
                         <div class="btn-group pull-right" style="display: inline;">
-                            <a href="http://lkrv.fri.uni-lj.si/crypto-portal" class="btn btn-primary">Go to Exercise</a>
+                            <a href="http://127.0.0.1:5000" class="btn btn-primary">Go to Crypto Portal</a>
                         </div>
                     {% endif %}
                 </div>
-                <div class="panel-body">
-                    {% if daily.substitution.id %}
-                        <h3>{{ daily.substitution.title }}</h3>
-                        <p>{{ daily.substitution.text }}</p>
-                    {% elif daily.riddle.id %}
+                {% if daily.riddle.id %}
+                    <div class="panel-body">
                         <h3>{{ daily.riddle.title }}</h3>
                         <p>{{ daily.riddle.text|safe }}</p>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     {% endif %}

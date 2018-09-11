@@ -1,5 +1,5 @@
 import os
-from flask import Flask, url_for, redirect, render_template, request, abort
+from flask import Flask, url_for, redirect, render_template, request, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore, \
     UserMixin, RoleMixin, login_required, current_user
@@ -10,6 +10,7 @@ from flask_admin import helpers as admin_helpers
 from wtforms import TextAreaField
 from wtforms.widgets import TextArea
 from wtforms.validators import ValidationError
+from flask_ckeditor import CKEditorField, CKEditor
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 db = SQLAlchemy(app)
+ckeditor = CKEditor(app)
 
 # Define models
 roles_users = db.Table('roles_users',
@@ -115,24 +117,14 @@ class SubstitutionView(MyView):
     form_excluded_columns = ('dailies')
 
 # Customized view class for Riddles with CKeditor
-class CKTextAreaWidget(TextArea):
-    def __call__(self, field, **kwargs):
-        if kwargs.get('class'):
-            kwargs['class'] += ' ckeditor'
-        else:
-            kwargs.setdefault('class', 'ckeditor')
-        return super(CKTextAreaWidget, self).__call__(field, **kwargs)
-
-class CKTextAreaField(TextAreaField):
-    widget = CKTextAreaWidget()
 
 class RiddleView(MyView):
-    extra_js = ['//cdn.ckeditor.com/4.6.0/standard/ckeditor.js']
     column_exclude_list = ('text')
     form_overrides = {
-        'text': CKTextAreaField
+        'text': CKEditorField
     }
     form_excluded_columns = ('dailies')
+    edit_template = 'admin/edit.html'
 
 # Customized view class for Dailies
 class DailyView(MyView):
