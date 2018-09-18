@@ -26,25 +26,25 @@ app.secret_key = sesskey
 
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024   # limit 1 MB
 
-# @app.route("/")
-# def index():
-#     return render_template("index.html", nav = "start")
-
-# example display of daily exercises on index
 @app.route("/")
 def index():
-    db = database.dbcon()
-    cur = db.cursor()
-    cur.execute("SELECT d.name, r.id, r.title, r.text, r.level, r.language " + 
-                "FROM daily d, riddle r " +
-                "WHERE d.riddle_id = r.id;")
-    riddles = [x for x in cur.fetchall()]
-    cur.execute("SELECT d.name, s.id, s.title, s.text, s.level, s.language " + 
-                "FROM daily d, substitution s " +
-                "WHERE d.substitution_id = s.id;")
-    substitutions = [x for x in cur.fetchall()]
-    cur.close()
-    return render_template("index2.html", nav = "start", substitutions = substitutions, riddles = riddles)
+
+    # daily riddle integration example
+    # db = database.dbcon()
+    # cur = db.cursor()
+    # cur.execute("SELECT d.name, r.id, r.title, r.text, r.level, r.language " + 
+    #             "FROM daily d, riddle r " +
+    #             "WHERE d.riddle_id = r.id;")
+    # riddles = [x for x in cur.fetchall()]
+    # cur.execute("SELECT d.name, s.id, s.title, s.text, s.level, s.language " + 
+    #             "FROM daily d, substitution s " +
+    #             "WHERE d.substitution_id = s.id;")
+    # substitutions = [x for x in cur.fetchall()]
+    # cur.close()
+    # return render_template("index2.html", nav = "start", substitutions = substitutions, riddles = riddles)
+
+    
+    return render_template("index.html", nav = "start")
 
 @app.route("/favicon.ico")
 def favicon():
