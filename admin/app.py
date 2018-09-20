@@ -209,7 +209,7 @@ if __name__ == '__main__':
     # Uncomment this call to create a test db with a test db user
     # email: Admin
     # password: admin
-    # test_db()
+    test_db()
 
     app.run(port=3001)
 

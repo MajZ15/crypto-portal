@@ -1,12 +1,14 @@
 import auth
 
+FLASK_APP = "app.py"
+
 # Create dummy secrey key so we can use sessions
 SECRET_KEY = '123456790'
 DEBUG = True
 ENV = 'development'
 
 # Create in-memory database
-SQLALCHEMY_DATABASE_URI = "mysql://{}@{}/{}".format(auth.dbuser, auth.dbhost, auth.dbase)
+SQLALCHEMY_DATABASE_URI = "mysql://{}:{}@{}/{}".format(auth.dbuser, auth.dbpass, auth.dbhost, auth.dbase)
 MYSQL_DATABASE_CHARSET = 'utf8mb4'
 SQLALCHEMY_ECHO = True
 
