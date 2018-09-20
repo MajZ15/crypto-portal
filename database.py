@@ -32,15 +32,15 @@ class Database:
 
     def dbcon(self):
         try:
-            # try:
-            #     self.db.ping()
-            # except:
-            #     self.db = MySQLdb.connect(host=auth.dbhost, user=auth.dbuser,
-            #                                 passwd=auth.dbpass, db=auth.dbase,
-            #                                 charset = 'utf8', use_unicode = True)
-            self.db = MySQLdb.connect(host=auth.dbhost, user=auth.dbuser,
+            try:
+                self.db.ping()
+            except:
+                self.db = MySQLdb.connect(host=auth.dbhost, user=auth.dbuser,
                                             passwd=auth.dbpass, db=auth.dbase,
                                             charset = 'utf8', use_unicode = True)
+            # self.db = MySQLdb.connect(host=auth.dbhost, user=auth.dbuser,
+            #                                 passwd=auth.dbpass, db=auth.dbase,
+            #                                 charset = 'utf8', use_unicode = True)
         except MySQLdb.OperationalError:
             return self.dummy
         return self.db

@@ -125,6 +125,7 @@ class RiddleView(MyView):
     }
     form_excluded_columns = ('dailies')
     edit_template = 'admin/edit.html'
+    create_template = 'admin/create.html'
 
 # Customized view class for Dailies
 class DailyView(MyView):
@@ -152,7 +153,7 @@ def security_context_processor():
         get_url=url_for
     )    
 
-# TO-DO just an example how to pass query in a view, change it so it is not global
+# Inject every path with a variable
 # @app.context_processor
 # def inject_paths():
 #     # you will be able to access dict in all views
